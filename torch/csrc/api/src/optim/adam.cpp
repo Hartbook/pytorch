@@ -22,6 +22,8 @@ void Adam::step() {
       continue;
     }
 
+    TORCH_CHECK(!p.grad().is_sparse(), "Adam does not support sparse gradients, please consider SparseAdam instead");
+
     if (options.weight_decay() > 0) {
       NoGradGuard guard;
       p.grad() = p.grad() + options.weight_decay() * p;
